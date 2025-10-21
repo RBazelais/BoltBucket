@@ -3,6 +3,7 @@
   "type": "module",
   "scripts": {
     "dev": "concurrently \"cd client && vite\" \"cd server && nodemon server\"",
+    "reset": "cd server/config && node --require dotenv/config reset.js",
     "start": "cd server && node server",
     "build": "cd client && vite build"
   },
