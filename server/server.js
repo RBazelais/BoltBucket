@@ -2,8 +2,8 @@ import express from 'express'
 import path from 'path'
 import favicon from 'serve-favicon'
 import dotenv from 'dotenv'
-
-// import the router from your routes file
+import customItemsRouter from './routes/customItems.js'
+import colorsRouter from './routes/colors.js'
 
 
 dotenv.config()
@@ -22,8 +22,9 @@ else if (process.env.NODE_ENV === 'production') {
     app.use(express.static('public'))
 }
 
-// specify the api path for the server to use
-
+// API routes
+app.use('/api/items', customItemsRouter)
+app.use('/api/colors', colorsRouter)
 
 if (process.env.NODE_ENV === 'production') {
     app.get('/*', (_, res) =>

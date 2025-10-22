@@ -41,8 +41,90 @@ const createItemsTable = async () => {
 	}
 }
 
+// Create colors table for exterior color options
+const createColorsTable = async () => {
+    const createTableQuery = `
+        DROP TABLE IF EXISTS colors;
+
+        CREATE TABLE IF NOT EXISTS colors (
+            id SERIAL PRIMARY KEY,
+            name VARCHAR(100) NOT NULL,
+            hex_code VARCHAR(7) NOT NULL,
+            price_adjustment NUMERIC(10,2) DEFAULT 0.00,
+            is_metallic BOOLEAN DEFAULT false,
+            is_available BOOLEAN DEFAULT true,
+            created_at TIMESTAMP DEFAULT NOW()
+        );
+    `
+
+    try {
+        await pool.query(createTableQuery)
+        console.log('🎉 colors table created successfully')
+    } catch (err) {
+        console.error('⚠️ error creating colors table', err)
+    }
+}
+
+const seedColorsTable = async () => {
+    const colorData = [
+        {
+            name: 'Arctic White',
+            hex_code: '#FFFFFF',
+            price_adjustment: 0.00,
+            is_metallic: false
+        },
+        {
+            name: 'Midnight Black',
+            hex_code: '#000000',
+            price_adjustment: 0.00,
+            is_metallic: false
+        },
+        {
+            name: 'Stellar Silver',
+            hex_code: '#C0C0C0',
+            price_adjustment: 500.00,
+            is_metallic: true
+        },
+        {
+            name: 'Racing Red',
+            hex_code: '#FF0000',
+            price_adjustment: 300.00,
+            is_metallic: false
+        },
+        {
+            name: 'Ocean Blue Metallic',
+            hex_code: '#0000FF',
+            price_adjustment: 750.00,
+            is_metallic: true
+        }
+    ]
+
+    const insertQuery = `
+        INSERT INTO colors (name, hex_code, price_adjustment, is_metallic)
+        VALUES ($1, $2, $3, $4)
+        RETURNING *;
+    `
+
+    try {
+        for (const color of colorData) {
+            const values = [
+                color.name,
+                color.hex_code,
+                color.price_adjustment,
+                color.is_metallic
+            ]
+            const res = await pool.query(insertQuery, values)
+            console.log(`✅ seeded color: ${res.rows[0].name}`)
+        }
+    } catch (err) {
+        console.error('⚠️ error seeding colors table', err)
+    }
+}
+
 const seedItemsTable = async () => {
-	await createItemsTable()
+    await createItemsTable()
+    await createColorsTable()
+    await seedColorsTable()
 
 		const itemData = [
 			{
