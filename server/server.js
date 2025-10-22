@@ -22,7 +22,6 @@ else if (process.env.NODE_ENV === 'production') {
     app.use(express.static('public'))
 }
 
-// API routes
 app.use('/api/items', customItemsRouter)
 app.use('/api/colors', colorsRouter)
 

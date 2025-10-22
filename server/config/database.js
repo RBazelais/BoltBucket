@@ -6,10 +6,9 @@ const config = {
     host: process.env.PGHOST,
     port: process.env.PGPORT,
     database: process.env.PGDATABASE,
-    // Make SSL conditional based on environment
-    ...(process.env.NODE_ENV === 'production' 
-        ? { ssl: { rejectUnauthorized: false } }
-        : {})
+    ssl: {
+        rejectUnauthorized: false
+    }
 }
 
 export const pool = new pg.Pool(config)

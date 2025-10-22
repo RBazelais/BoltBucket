@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import { pool } from './database.js'
 
 // Create an items table tailored for the BoltBucket exemplar (cars).
