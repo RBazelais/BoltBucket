@@ -11,19 +11,23 @@ const App = () => {
   let element = useRoutes([
     {
       path: '/',
+      element: <ViewCars title='BOLT BUCKET | View Cars' />
+    },
+    {
+      path:'/cars',
+      element: <ViewCars title='BOLT BUCKET | View Cars' />
+    },
+    {
+      path: '/cars/:id',
+      element: <CarDetails title='BOLT BUCKET | Car Details' />
+    },
+    {
+      path: '/cars/:id/edit',
+      element: <EditCar title='BOLT BUCKET | Edit Car' />
+    },
+    {
+      path: '/create',
       element: <CreateCar title='BOLT BUCKET | Customize' />
-    },
-    {
-      path:'/customcars',
-      element: <ViewCars title='BOLT BUCKET | Custom Cars' />
-    },
-    {
-      path: '/customcars/:id',
-      element: <CarDetails title='BOLT BUCKET | View' />
-    },
-    {
-      path: '/edit/:id',
-      element: <EditCar title='BOLT BUCKET | Edit' />
     }
   ])
 
