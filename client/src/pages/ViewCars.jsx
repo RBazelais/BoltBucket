@@ -34,41 +34,49 @@ const ViewCars = () => {
                     <Link to="/create" className="button">Create New Car</Link>
                 </div>
             ) : (
-                cars.map(car => (
-                    <div key={car.id} className="car-card">
-                        <div className="car-header">
-                            <span className="car-icon">🏎️</span>
-                            <h2>{car.name}</h2>
-                        </div>
-                        
-                        <div className="car-details">
-                            <div className="detail-row">
-                                <span className="detail-label">🎨 Exterior:</span>
-                                <span className="detail-value">Arctic White</span>
-                            </div>
-                            <div className="detail-row">
-                                <span className="detail-label">🏎️ Wheels:</span>
-                                <span className="detail-value">Sport 19"</span>
-                            </div>
-                            <div className="detail-row">
-                                <span className="detail-label">☀️ Roof:</span>
-                                <span className="detail-value">Standard</span>
-                            </div>
-                            <div className="detail-row">
-                                <span className="detail-label">🪑 Interior:</span>
-                                <span className="detail-value">Black Leather</span>
-                            </div>
-                        </div>
+                cars.map(car => {
+                    // helper to get label from option object
+                    const getLabel = (option) => {
+                        if (!option) return 'N/A'
+                        // option is now an object with { id, label, image, price }
+                        return option.label || 'N/A'
+                    }
 
-                        <div className="car-footer">
-                            <div className="car-price">
-                                <span className="price-icon">💰</span>
-                                <span className="price-amount">${car.price.toLocaleString()}</span>
+                    const exterior = Array.isArray(car.category_images?.exterior) && car.category_images.exterior[0] ? getLabel(car.category_images.exterior[0]) : 'N/A'
+                    const roof = Array.isArray(car.category_images?.roof) && car.category_images.roof[0] ? getLabel(car.category_images.roof[0]) : 'Body Color'
+                    const wheels = Array.isArray(car.category_images?.wheels) && car.category_images.wheels[0] ? getLabel(car.category_images.wheels[0]) : 'N/A'
+                    const interior = Array.isArray(car.category_images?.interior) && car.category_images.interior[0] ? getLabel(car.category_images.interior[0]) : 'N/A'
+
+                    return (
+                        <div key={car.id} className="car-card">
+                            <div className="card-left">
+                                <span className="car-icon">🏎️</span>
+                                <h3 className="car-name">{car.name}</h3>
                             </div>
-                            <Link to={`/cars/${car.id}`} className="details-button">DETAILS</Link>
+
+                            <div className="card-center">
+                                <div className="center-grid">
+                                    <div className="center-col">
+                                        <div className="center-item"><span>🎨 Exterior:</span><span>{exterior}</span></div>
+                                        <div className="center-item"><span>😎 Roof:</span><span>{roof}</span></div>
+                                    </div>
+                                    <div className="center-col">
+                                        <div className="center-item"><span>🛞 Wheels:</span><span>{wheels}</span></div>
+                                        <div className="center-item"><span>🪑 Interior:</span><span>{interior}</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="card-right">
+                                <div className="price-block">
+                                    <span className="price-icon">💰</span>
+                                    <span className="price-amount">${Number(car.price).toLocaleString()}</span>
+                                </div>
+                                <Link to={`/cars/${car.id}`} className="details-button">DETAILS</Link>
+                            </div>
                         </div>
-                    </div>
-                ))
+                    )
+                })
             )}
         </div>
     )
